@@ -4,8 +4,7 @@ import {
   ArrowLeftOnRectangleIcon,
   ChevronDownIcon,
 } from "@heroicons/react/24/outline";
-import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
-
+import logo from '../assets/Logo.png';
 interface NavigationProps {
   userInfo: any;
   handleSignOutClick: (
@@ -24,8 +23,13 @@ const Navigation: React.FC<NavigationProps> = ({
           to="/"
           className="inline-flex items-center self-center text-2xl font-semibold whitespace-nowrap text-white"
         >
-          <ChatBubbleLeftRightIcon className="w-6 h-6 mr-1.5" />
-          DocChat
+          {/* <ChatBubbleLeftRightIcon className="w-6 h-6 mr-1.5" /> */}
+          <img
+              alt='Logo'
+              style={{height: '40px', width: '40px',marginRight: '10px'}}
+              src={logo}
+            />
+          Chat With Your Document
         </Link>
         <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
           <div className="relative ml-3">
