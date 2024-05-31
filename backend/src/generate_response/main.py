@@ -33,20 +33,21 @@ def lambda_handler(event, context):
         service_name="bedrock-runtime",
         region_name="us-east-1",
     )
-
+    print("embedding starts")
     embeddings, llm = BedrockEmbeddings(
         model_id="amazon.titan-embed-text-v1",
         client=bedrock_runtime,
         region_name="us-east-1",
     ), Bedrock(
-        model_id="anthropic.claude-v2", client=bedrock_runtime, region_name="us-east-1"
+        #model_id="anthropic.claude-v2", client=bedrock_runtime, region_name="us-east-1"
+        model_id="mistral.mistral-7b-instruct-v0:2", client=bedrock_runtime, region_name="us-east-1"
     )
-    faiss_index = FAISS.load_local("/tmp", embeddings)
-
+    #faiss_index = FAISS.load_local("/tmp", embeddings)
+    faiss_index = FAISS.load_local("/tmp", embeddings, allow_dangerous_deserialization=True)
     message_history = DynamoDBChatMessageHistory(
         table_name=MEMORY_TABLE, session_id=conversation_id
     )
-
+    print("embedding ends")
     memory = ConversationBufferMemory(
         memory_key="chat_history",
         chat_memory=message_history,
@@ -65,7 +66,7 @@ def lambda_handler(event, context):
     res = qa({"question": human_input})
 
     logger.info(res)
-
+    print("response generate ends")
     return {
         "statusCode": 200,
         "headers": {
